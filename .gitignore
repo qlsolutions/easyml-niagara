@@ -27,6 +27,8 @@ hs_err_pid*
 /.project
 /build/
 /build-eclipse/
-easymlProvider-rt/.classpath
-easymlProvider-rt/nrdbInflux-rt/bin/
-easymlProvider-rt/nrdbInflux-rt/build/
+easymlProvider/easymlProvider-rt/bin/
+easymlProvider/easymlProvider-rt/build/
+easymlProvider/easymlProvider-rt/.settings/
+*.classpath
+*.project
