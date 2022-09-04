@@ -3,7 +3,6 @@ EasyML - Data Provider for Niagara Framework
 
 This project is intended to demonstrate how to integrate the [easyml-provider-api](https://github.com/qlsolutions/easyml-provider-api) 
 in the Niagara Framework to create a new EasyML Data Provider for the integration with the EasyML Application.
-pplication.
 
 ## Getting Started
 
@@ -16,10 +15,10 @@ For more information on how to build Niagara modules please refer to the Niagara
 
 Once the module is built, start up a station and use the `easymlProvider` palette to add
 a `EasyMLProvider` to your station. This will enable the Data Provider API for the communication
-with the EasyML Application. Don't forget to enable the AuthenticationScheme 'HTTPBasicScheme' and
+with the EasyML Application. Don't forget to enable the AuthenticationScheme `HTTPBasicScheme` and
 create a user to access the API from the Application.
 
-The version 1.0.0-alpha of the easyml-niagara jar can be downloaded [here](https://github.com/qlsolutions/easyml-niagara/releases/download/v1.0.0-alpha/easymlProvider-rt.jar).
+The version 1.0.0-alpha of the easyml-niagara .jar can be downloaded [here](https://github.com/qlsolutions/easyml-niagara/releases/download/v1.0.0-alpha/easymlProvider-rt.jar).
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
