@@ -1,0 +1,6 @@
+<!-- Module Include File -->
+<!-- Types -->
+<types>
+  <!--com.quicklink.easyml-->
+  <type class="com.quicklink.easyml.BEasyMLProvider" name="EasyMLProvider"/>
+</types>

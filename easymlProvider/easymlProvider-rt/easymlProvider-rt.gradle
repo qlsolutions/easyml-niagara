@@ -1,0 +1,26 @@
+/* Module Build File */
+
+description = "EasyML Data Provider"
+ext {
+}
+niagaraModule {
+  moduleName = "easymlProvider"
+  preferredSymbol = "emlp"
+  runtimeProfile = "rt"
+}
+
+dependencies {
+  compile "Tridium:nre:4.8"
+  compile "Tridium:baja:4.8"
+  compile "Tridium:file-rt:4.8"
+  compile "Tridium:net-rt:4.8"
+  compile "Tridium:web-rt:4.8"
+  compile "Tridium:bql-rt:4.8"
+  compile "Tridium:history-rt:4.8"
+  compile 'javax.servlet:javax.servlet-api:3.1.0'
+}
+
+moduleTestJar {
+  from('srcTest') {
+  }
+}

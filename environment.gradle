@@ -1,0 +1,10 @@
+/*
+ * Copyright 2022 QuickLink Solutions, All Rights Reserved.
+ */
+/* Environment Configuration File */
+
+// Change niagara_home and niagara_user_home as needed to point to the
+// correct path to your desired Niagara install and its associated user home
+gradle.ext.niagara_dev_home = "C:/Niagara/r4git/easymlProvider-n4"
+gradle.ext.niagara_home = "C:/Niagara/Niagara-4.11.1.16"
+gradle.ext.niagara_user_home = "C:/Users/gastaldelloa/Niagara4.11/TridiumEMEA"
