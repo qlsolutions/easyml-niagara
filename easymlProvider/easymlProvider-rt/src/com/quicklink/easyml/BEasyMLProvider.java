@@ -61,6 +61,7 @@ import com.tridium.json.JSONObject;
   name = "servletName",
   type = "String",
   flags = Flags.HIDDEN,
+  override = true,
   defaultValue = "easyml"
 )
 public class BEasyMLProvider
