@@ -282,11 +282,23 @@ public class BEasyMLProvider
         buffer.append(new String(data, 0, i));
       JSONObject params = new JSONObject(buffer.toString());
       if (params.has("limit"))
+      {
         limit = params.getInt("limit");
+        if (limit == 0)
+          limit = Integer.MAX_VALUE;
+      }
       if (params.has("from"))
+      {
         from = BAbsTime.make(params.getLong("from"));
+        if (from.isNull())
+          from = null;
+      }
       if (params.has("to"))
-        to = BAbsTime.make(params.getLong("to"));        
+      {
+        to = BAbsTime.make(params.getLong("to"));
+        if (to.isNull())
+          to = null;
+      }
     }
     
     if (paths.length >= 2)
@@ -325,7 +337,7 @@ public class BEasyMLProvider
           // write response
           if (post)
           {
-            if (from.isAfter(to))
+            if (from != null && to != null && from.isAfter(to))
               op.getResponse().sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid timerange interval.");
             else
             {
