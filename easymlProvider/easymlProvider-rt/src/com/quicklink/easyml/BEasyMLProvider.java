@@ -304,7 +304,7 @@ public class BEasyMLProvider
     
     if (paths.length >= 1)
     {
-      BHistoryId historyId = BHistoryId.make(SlotPath.unescape(paths[0]));
+      BHistoryId historyId = BHistoryId.make("/" + SlotPath.unescape(paths[0]));
       BHistoryService service = (BHistoryService) Sys.getService(BHistoryService.TYPE);
       BHistoryDatabase db = service.getDatabase();
       HistoryDatabaseConnection connection = db.getDbConnection(op);
@@ -354,7 +354,7 @@ public class BEasyMLProvider
                   break;
                 
                 JSONObject record = new JSONObject();
-                BHistoryRecord historyrecord = (BHistoryRecord)cursor.get();
+                BHistoryRecord historyrecord = cursor.get();
                 record.put("timestamp", historyrecord.getTimestamp().getMillis());
                 
                 // add the value field based on history type
