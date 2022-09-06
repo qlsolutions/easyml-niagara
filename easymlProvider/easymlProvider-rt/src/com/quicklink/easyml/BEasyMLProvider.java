@@ -23,6 +23,7 @@ import javax.baja.history.BNumericTrendRecord;
 import javax.baja.history.BStringTrendRecord;
 import javax.baja.history.db.BHistoryDatabase;
 import javax.baja.history.db.HistoryDatabaseConnection;
+import javax.baja.naming.SlotPath;
 import javax.baja.nre.annotations.NiagaraProperty;
 import javax.baja.nre.annotations.NiagaraType;
 import javax.baja.nre.util.TextUtil;
@@ -231,7 +232,7 @@ public class BEasyMLProvider
           continue;
         
         JSONObject history = new JSONObject();
-        history.put("id", config.getId().getDeviceName() + "/" + config.getId().getHistoryName());
+        history.put("id", SlotPath.escape(config.getId().getDeviceName() + "/" + config.getId().getHistoryName()));
         history.put("displayName", histories[j].getDisplayName(op));
         history.put("type", type);
         if (type.equals("numeric"))
@@ -301,9 +302,9 @@ public class BEasyMLProvider
       }
     }
     
-    if (paths.length >= 2)
+    if (paths.length >= 1)
     {
-      BHistoryId historyId = BHistoryId.make(paths[0], paths[1]);
+      BHistoryId historyId = BHistoryId.make(SlotPath.unescape(paths[0]));
       BHistoryService service = (BHistoryService) Sys.getService(BHistoryService.TYPE);
       BHistoryDatabase db = service.getDatabase();
       HistoryDatabaseConnection connection = db.getDbConnection(op);
@@ -317,7 +318,7 @@ public class BEasyMLProvider
         {
           JSONObject json = new JSONObject();
           
-          json.put("id", config.getId().getDeviceName() + "/" + config.getId().getHistoryName());
+          json.put("id", SlotPath.escape(config.getId().getDeviceName() + "/" + config.getId().getHistoryName()));
           json.put("displayName", history.getDisplayName(op));
           json.put("type", type);
           if (type.equals("numeric"))
