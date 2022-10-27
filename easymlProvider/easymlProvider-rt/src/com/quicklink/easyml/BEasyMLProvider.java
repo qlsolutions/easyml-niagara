@@ -34,6 +34,7 @@ import javax.baja.sys.Flags;
 import javax.baja.sys.Property;
 import javax.baja.sys.Sys;
 import javax.baja.sys.Type;
+import javax.baja.tag.Id;
 import javax.baja.units.BUnit;
 import javax.baja.util.BTypeSpec;
 import javax.baja.web.BWebServlet;
@@ -228,7 +229,13 @@ public class BEasyMLProvider
       {
         BHistoryConfig config = histories[j].getConfig();
         String type = getRecordType(config.getRecordType());
+        
         if (type.length() == 0)
+          continue;
+        
+        boolean toAdd = config.tags().get(Id.newId(EASYML_SERIE_TAG)).isPresent();
+        
+        if (!toAdd)
           continue;
         
         JSONObject history = new JSONObject();
@@ -244,7 +251,9 @@ public class BEasyMLProvider
         else
           history.put("units", "");
         history.put("interval", config.getInterval().isIrregular() ? "irregular" : Long.toString(config.getInterval().getInterval().getMillis()));
-        history.put("tags", config.getSystemTags().getNames());
+        history.put("tags", config.tags().getAll().stream().collect(StringBuilder::new,
+                                                                    (x, y) -> x.append(y.getValue().toString()).append(","),
+                                                                    (a, b) -> a.append(",").append(b)).toString().split(","));
         history.put("recordCount", connection.getRecordCount(histories[j]));
         history.put("firstTimestamp", connection.getFirstTimestamp(histories[j]).getMillis());
         history.put("lastTimestamp", connection.getLastTimestamp(histories[j]).getMillis());
@@ -330,7 +339,9 @@ public class BEasyMLProvider
           else
             json.put("units", "");
           json.put("interval", config.getInterval().isIrregular() ? "irregular" : Long.toString(config.getInterval().getInterval().getMillis()));
-          json.put("tags", config.getSystemTags().getNames());
+          json.put("tags", config.tags().getAll().stream().collect(StringBuilder::new,
+                                                         (x, y) -> x.append(y.getValue().toString()).append(","),
+                                                         (a, b) -> a.append(",").append(b)).toString().split(","));
           json.put("recordCount", connection.getRecordCount(history));
           json.put("firstTimestamp", connection.getFirstTimestamp(history).getMillis());
           json.put("lastTimestamp", connection.getLastTimestamp(history).getMillis());
@@ -487,4 +498,6 @@ public class BEasyMLProvider
 ////////////////////////////////////////////////////////////////
 
   private static final BIcon icon = BIcon.std("deviceData.png");
+  
+  private static final String EASYML_SERIE_TAG = "easyml";
 }
