@@ -27,6 +27,7 @@ import javax.baja.naming.SlotPath;
 import javax.baja.nre.annotations.NiagaraProperty;
 import javax.baja.nre.annotations.NiagaraType;
 import javax.baja.nre.util.TextUtil;
+import javax.baja.security.BIProtected;
 import javax.baja.sys.BAbsTime;
 import javax.baja.sys.BFacets;
 import javax.baja.sys.BIcon;
@@ -227,7 +228,8 @@ public class BEasyMLProvider
       
       for (int j=0; j<histories.length; ++j)
       {
-        BHistoryConfig config = histories[j].getConfig();
+        BIHistory history = histories[j];
+        BHistoryConfig config = history.getConfig();
         String type = getRecordType(config.getRecordType());
         
         if (type.length() == 0)
@@ -235,30 +237,30 @@ public class BEasyMLProvider
         
         boolean toAdd = config.tags().get(Id.newId(EASYML_SERIE_TAG)).isPresent();
         
-        if (!toAdd)
+        if (!toAdd || (history instanceof BIProtected && !op.getUser().getPermissionsFor((BIProtected)history).hasOperatorRead()))
           continue;
         
-        JSONObject history = new JSONObject();
-        history.put("id", SlotPath.escape(config.getId().getDeviceName() + "/" + config.getId().getHistoryName()));
-        history.put("displayName", histories[j].getDisplayName(op));
-        history.put("type", type);
+        JSONObject jhistory = new JSONObject();
+        jhistory.put("id", SlotPath.escape(config.getId().getDeviceName() + "/" + config.getId().getHistoryName()));
+        jhistory.put("displayName", history.getDisplayName(op));
+        jhistory.put("type", type);
         if (type.equals("numeric"))
         {
           BFacets facets = (BFacets)config.get("valueFacets");
           BUnit units = (BUnit)facets.get("units", BUnit.NULL);
-          history.put("units", units.isNull() ? "" : units.getSymbol());
+          jhistory.put("units", units.isNull() ? "" : units.getSymbol());
         }
         else
-          history.put("units", "");
-        history.put("interval", config.getInterval().isIrregular() ? "irregular" : Long.toString(config.getInterval().getInterval().getMillis()));
-        history.put("tags", config.tags().getAll().stream().collect(StringBuilder::new,
+          jhistory.put("units", "");
+        jhistory.put("interval", config.getInterval().isIrregular() ? "irregular" : Long.toString(config.getInterval().getInterval().getMillis()));
+        jhistory.put("tags", config.tags().getAll().stream().collect(StringBuilder::new,
                                                                     (x, y) -> x.append(y.getValue().toString()).append(","),
                                                                     (a, b) -> a.append(",").append(b)).toString().split(","));
-        history.put("recordCount", connection.getRecordCount(histories[j]));
-        history.put("firstTimestamp", connection.getFirstTimestamp(histories[j]).getMillis());
-        history.put("lastTimestamp", connection.getLastTimestamp(histories[j]).getMillis());
+        jhistory.put("recordCount", connection.getRecordCount(history));
+        jhistory.put("firstTimestamp", connection.getFirstTimestamp(history).getMillis());
+        jhistory.put("lastTimestamp", connection.getLastTimestamp(history).getMillis());
         
-        series.put(history);
+        series.put(jhistory);
       }
     }
     
@@ -319,7 +321,7 @@ public class BEasyMLProvider
       HistoryDatabaseConnection connection = db.getDbConnection(op);
       
       BIHistory history = connection.getHistory(historyId);
-      if (history != null)
+      if (history != null && (history instanceof BIProtected && op.getUser().getPermissionsFor((BIProtected)history).hasOperatorRead()))
       {
         BHistoryConfig config = history.getConfig();
         String type = getRecordType(config.getRecordType());
