@@ -18,7 +18,7 @@ a `EasyMLProvider` to your station. This will enable the Data Provider API for t
 with the EasyML Application. Don't forget to enable the AuthenticationScheme `HTTPBasicScheme` and
 create a user to access the API from the Application.
 
-The version 1.0.0-alpha of the easyml-niagara .jar can be downloaded [here](https://github.com/qlsolutions/easyml-niagara/releases/download/v1.0.0-alpha/easymlProvider-rt.jar).
+The version 1.0.0-alpha of the easyml-niagara .jar can be downloaded [here](https://github.com/qlsolutions/easyml-niagara/releases/download/v1.0.0-beta/easymlProvider-rt.jar).
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
