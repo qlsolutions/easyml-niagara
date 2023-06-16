@@ -6,5 +6,5 @@
 // Change niagara_home and niagara_user_home as needed to point to the
 // correct path to your desired Niagara install and its associated user home
 gradle.ext.niagara_dev_home = "C:/Niagara/r4git/easyml-niagara"
-gradle.ext.niagara_home = "C:/Niagara/Niagara-4.11.1.16"
-gradle.ext.niagara_user_home = "C:/Users/gastaldelloa/Niagara4.11/TridiumEMEA"
+gradle.ext.niagara_home = "C:/Niagara/Niagara-4.12.2.16"
+gradle.ext.niagara_user_home = "C:/Users/gastaldelloa/Niagara4.12/TridiumEMEA"

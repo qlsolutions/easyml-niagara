@@ -21,5 +21,9 @@ hs_err_pid*
 easymlProvider/easymlProvider-rt/bin/
 easymlProvider/easymlProvider-rt/build/
 easymlProvider/easymlProvider-rt/.settings/
+easymlProvider/easymlProvider-wb/bin/
+easymlProvider/easymlProvider-wb/build/
+easymlProvider/easymlProvider-wb/.settings/
+
 *.classpath
 *.project

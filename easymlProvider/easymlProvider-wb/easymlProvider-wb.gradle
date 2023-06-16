@@ -1,0 +1,30 @@
+/* Module Build File */
+
+description = "EasyML Data Provider"
+ext {
+}
+niagaraModule {
+  moduleName = "easymlProvider"
+  preferredSymbol = "emlp"
+  runtimeProfile = "wb"
+}
+
+dependencies {
+  compile "Tridium:baja:4.0" 
+  compile "Tridium:nre:4.0"
+  compile "Tridium:workbench-wb:4.0"
+  compile "Tridium:control-wb:4.0"
+  compile "Tridium:alarm-rt:4.0"
+  compile "Tridium:driver-wb:4.0"
+  compile "Tridium:gx-wb:4.0"
+  compile "Tridium:hx-wb:4.0"
+  compile "Tridium:bajaui-wb:4.0"
+  compile "Tridium:gx-rt:4.0" 
+  compile "Tridium:gx-wb:4.0" 
+  compile project(":easymlProvider-rt")
+}
+
+moduleTestJar {
+  from('srcTest') {
+  }
+}

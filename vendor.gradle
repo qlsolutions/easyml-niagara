@@ -4,6 +4,6 @@
 /* Vendor Configuration File */
 group = 'QuickLink Solutions'
 
-def moduleVersion = '1.0.0'
+def moduleVersion = '1.1.0'
 def moduleVersionPatch = [:]
 version = "${moduleVersion}${moduleVersionPatch.get(project.name, '')}"

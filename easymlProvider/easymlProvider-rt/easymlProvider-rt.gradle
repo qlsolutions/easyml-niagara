@@ -7,6 +7,11 @@ niagaraModule {
   moduleName = "easymlProvider"
   preferredSymbol = "emlp"
   runtimeProfile = "rt"
+  
+  modulePart {
+    name = "easymlProvider-wb"
+    runtimeProfile = "wb"
+  }
 }
 
 dependencies {
@@ -17,6 +22,9 @@ dependencies {
   compile "Tridium:web-rt:4.8"
   compile "Tridium:bql-rt:4.8"
   compile "Tridium:history-rt:4.8"
+  compile "Tridium:alarm-rt:4.0"
+  compile "Tridium:driver-rt:4.0"
+  compile "Tridium:basicDriver-rt:4.0"
   compile 'javax.servlet:javax.servlet-api:3.1.0'
 }
 

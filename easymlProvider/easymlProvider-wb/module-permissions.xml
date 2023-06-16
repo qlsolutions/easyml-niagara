@@ -1,0 +1,32 @@
+<permissions>
+  <niagara-permission-groups type="all">
+
+    <req-permission>
+      <name>LOGGING</name>
+      <purposeKey>permissions.logging</purposeKey>
+    </req-permission>
+    
+    <req-permission>
+      <name>SYSTEM_PROPERTIES</name>
+      <purposeKey>permissions.systemProperties</purposeKey>
+      <parameters>
+        <parameter name="properties" value="niagara.home,protected.station.home,niagara.user.home,*"/>
+        <parameter name="actions" value="read"/>
+      </parameters>
+    </req-permission>
+    
+    <req-permission>
+      <name>NETWORK_COMMUNICATION</name>
+      <purposeKey>permissions.networkCommunication</purposeKey>
+      <parameters>
+        <parameter name="hosts" value="*"/>
+        <parameter name="ports" value="*"/>
+      </parameters>
+    </req-permission>
+    
+    <req-permission>
+      <name>UI</name>
+      <purposeKey>Used for UI access.</purposeKey>
+    </req-permission>  
+  </niagara-permission-groups>
+</permissions>

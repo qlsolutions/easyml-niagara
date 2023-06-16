@@ -2,5 +2,21 @@
 <!-- Types -->
 <types>
   <!--com.quicklink.easyml-->
-  <type class="com.quicklink.easyml.BEasyMLProvider" name="EasyMLProvider"/>
+  <type name="EasyMLProvider"                    class="com.quicklink.easyml.BEasyMLProvider"/>
+  
+  <!-- com.quicklink.easyml.driver -->
+  <type name="EasyMLNetwork"                     class="com.quicklink.easyml.driver.BEasyMLNetwork"/>
+  <type name="EasyMLServer"                      class="com.quicklink.easyml.driver.BEasyMLServer"/>
+  <type name="EasyMLServerFolder"                class="com.quicklink.easyml.driver.BEasyMLServerFolder"/>
+
+  <!-- com.quicklink.easyml.learn -->
+  <type name="EasyMLHistoryEntry"                class="com.quicklink.easyml.driver.learn.BEasyMLHistoryEntry"/>
+  <type name="EasyMLHistoryLearnJob"             class="com.quicklink.easyml.driver.learn.BEasyMLHistoryLearnJob"/>
+
+  <!-- com.quicklink.easyml.driver.history -->
+  <type name="EasyMLHistoryImport"               class="com.quicklink.easyml.driver.history.BEasyMLHistoryImport"/>
+  <type name="EasyMLHistoryFolder"               class="com.quicklink.easyml.driver.history.BEasyMLHistoryFolder"/>
+  <type name="EasyMLHistoryServerExt"            class="com.quicklink.easyml.driver.history.BEasyMLHistoryServerExt"/>
+  <type name="EasyMLHistoryWorker"               class="com.quicklink.easyml.driver.history.BEasyMLHistoryWorker"/>
+
 </types>

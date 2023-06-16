@@ -1,0 +1,19 @@
+<!-- Module Include File -->
+
+<!-- Types -->
+<types>
+
+  <!-- com.quicklink.easyml.driver.ui -->
+  <type name="EasyMLServerManager"               class="com.quicklink.easyml.driver.ui.BEasyMLServerManager">
+    <agent>
+      <on type="easymlProvider:EasyMLNetwork"/>
+      <on type="easymlProvider:EasyMLServerFolder"/>
+    </agent>
+  </type>
+  <type name="EasyMLHistoryImportManager"        class="com.quicklink.easyml.driver.ui.BEasyMLHistoryImportManager" >
+    <agent>
+      <on type="easymlProvider:EasyMLHistoryServerExt"/>
+    </agent>
+  </type>
+
+</types>
