@@ -31,7 +31,7 @@ import com.quicklink.easyml.driver.BEasyMLServer;
 @NiagaraProperty(
   name = "requestRecords",
   type = "int",
-  defaultValue = "1000",
+  defaultValue = "10000",
   facets = @Facet("BFacets.makeInt(1, Integer.MAX_VALUE)")
 )
 public class BEasyMLHistoryServerExt
@@ -39,8 +39,8 @@ public class BEasyMLHistoryServerExt
 {
   
 /*+ ------------ BEGIN BAJA AUTO GENERATED CODE ------------ +*/
-/*@ $com.quicklink.easyml.driver.history.BEasyMLHistoryServerExt(2885894335)1.0$ @*/
-/* Generated Thu Jun 08 13:48:22 CEST 2023 by Slot-o-Matic (c) Tridium, Inc. 2012 */
+/*@ $com.quicklink.easyml.driver.history.BEasyMLHistoryServerExt(3987371291)1.0$ @*/
+/* Generated Wed Jun 21 15:24:34 CEST 2023 by Slot-o-Matic (c) Tridium, Inc. 2012 */
 
 ////////////////////////////////////////////////////////////////
 // Property "requestRecords"
@@ -52,7 +52,7 @@ public class BEasyMLHistoryServerExt
    * @see #getRequestRecords
    * @see #setRequestRecords
    */
-  public static final Property requestRecords = newProperty(0, 1000, BFacets.makeInt(1, Integer.MAX_VALUE));
+  public static final Property requestRecords = newProperty(0, 10000, BFacets.makeInt(1, Integer.MAX_VALUE));
   
   /**
    * Get the {@code requestRecords} property.

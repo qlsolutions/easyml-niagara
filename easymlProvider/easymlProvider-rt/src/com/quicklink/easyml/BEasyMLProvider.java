@@ -71,8 +71,8 @@ public class BEasyMLProvider
   extends BWebServlet
 {
 /*+ ------------ BEGIN BAJA AUTO GENERATED CODE ------------ +*/
-/*@ $com.quicklink.easyml.BEasyMLProvider(1845218854)1.0$ @*/
-/* Generated Sun Sep 04 00:37:18 CEST 2022 by Slot-o-Matic (c) Tridium, Inc. 2012 */
+/*@ $com.quicklink.easyml.BEasyMLProvider(834071557)1.0$ @*/
+/* Generated Wed Jun 21 15:24:34 CEST 2023 by Slot-o-Matic (c) Tridium, Inc. 2012 */
 
 ////////////////////////////////////////////////////////////////
 // Property "servletName"
@@ -84,18 +84,6 @@ public class BEasyMLProvider
    * @see #setServletName
    */
   public static final Property servletName = newProperty(Flags.HIDDEN, "easyml", null);
-  
-  /**
-   * Get the {@code servletName} property.
-   * @see #servletName
-   */
-  public String getServletName() { return getString(servletName); }
-  
-  /**
-   * Set the {@code servletName} property.
-   * @see #servletName
-   */
-  public void setServletName(String v) { setString(servletName, v, null); }
 
 ////////////////////////////////////////////////////////////////
 // Type

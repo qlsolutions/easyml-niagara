@@ -86,7 +86,8 @@ public abstract class EasyMLMessage
         log.message(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
       }
 
-      out.write(request.getBytes());
+      byte[] input = request.getBytes("utf-8");
+      out.write(input, 0, input.length);
     }
     catch (Exception e)
     {

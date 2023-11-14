@@ -16,9 +16,5 @@ package com.quicklink.easyml.driver.messages;
  */
 public interface EasyMLMessageConst
 { 
-  // web services path
-  public static final String EVAL_BASE_PATH   = "/_common/webservices/Eval";
-  public static final String REPORT_BASE_PATH = "/_common/webservices/Trend";
-  public static final String TREND_BASE_PATH  = "/_common/webservices/Report";
-
+  
 }
