@@ -255,7 +255,7 @@ public class BEasyMLProvider
           
           BFacets facets = (BFacets)config.get("valueFacets");
           String trueText = facets.gets(BFacets.TRUE_TEXT, "true");
-          String falseText = facets.gets(BFacets.TRUE_TEXT, "false");
+          String falseText = facets.gets(BFacets.FALSE_TEXT, "false");
           jhistory.put("range", buildRange(trueText, falseText));          
         }
         else
@@ -288,12 +288,12 @@ public class BEasyMLProvider
     JSONObject option = new JSONObject();
     option.put("ordinal", 0);
     option.put("tag", falseText);
-    
     json.put(option);
     
     option = new JSONObject();
     option.put("ordinal", 1);
     option.put("tag", trueText);
+    json.put(option);
     
     return json;
   }
