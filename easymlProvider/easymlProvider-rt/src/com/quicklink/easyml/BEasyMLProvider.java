@@ -29,6 +29,7 @@ import javax.baja.nre.annotations.NiagaraType;
 import javax.baja.nre.util.TextUtil;
 import javax.baja.security.BIProtected;
 import javax.baja.sys.BAbsTime;
+import javax.baja.sys.BEnumRange;
 import javax.baja.sys.BFacets;
 import javax.baja.sys.BIcon;
 import javax.baja.sys.Flags;
@@ -234,12 +235,34 @@ public class BEasyMLProvider
         jhistory.put("type", type);
         if (type.equals("numeric"))
         {
+          jhistory.put("range", new JSONArray());
+          
           BFacets facets = (BFacets)config.get("valueFacets");
-          BUnit units = (BUnit)facets.get("units", BUnit.NULL);
-          jhistory.put("units", units.isNull() ? "" : units.getSymbol());
+          BUnit units = (BUnit)facets.get(BFacets.UNITS, BUnit.NULL);
+          jhistory.put("units", units.isNull() ? "" : units.getUnitName());
+        }
+        else if (type.equals("enum"))
+        {
+          jhistory.put("units", "");
+          
+          BFacets facets = (BFacets)config.get("valueFacets");
+          BEnumRange range = (BEnumRange)facets.get(BFacets.RANGE, BEnumRange.NULL);
+          jhistory.put("range", range.isNull() ? new JSONArray() : buildRange(range));
+        }
+        else if (type.equals("bool"))
+        {
+          jhistory.put("units", "");
+          
+          BFacets facets = (BFacets)config.get("valueFacets");
+          String trueText = facets.gets(BFacets.TRUE_TEXT, "true");
+          String falseText = facets.gets(BFacets.TRUE_TEXT, "false");
+          jhistory.put("range", buildRange(trueText, falseText));          
         }
         else
+        {
           jhistory.put("units", "");
+          jhistory.put("range", new JSONArray());
+        }
         jhistory.put("interval", config.getInterval().isIrregular() ? "irregular" : Long.toString(config.getInterval().getInterval().getMillis()));
         jhistory.put("tags", config.tags().getAll().stream().collect(StringBuilder::new,
                                                                     (x, y) -> x.append(y.getValue().toString()).append(","),
@@ -256,6 +279,38 @@ public class BEasyMLProvider
       
     // write response
     writeResponse(op, json);
+  }
+  
+  private static JSONArray buildRange(String trueText, String falseText)
+  {
+    JSONArray json = new JSONArray();
+
+    JSONObject option = new JSONObject();
+    option.put("ordinal", 0);
+    option.put("tag", falseText);
+    
+    json.put(option);
+    
+    option = new JSONObject();
+    option.put("ordinal", 1);
+    option.put("tag", trueText);
+    
+    return json;
+  }
+  
+  private static JSONArray buildRange(BEnumRange range)
+  {
+    JSONArray json = new JSONArray();
+    int[] ordinals = range.getOrdinals();
+    for (int i=0; i<ordinals.length; ++i)
+    {
+      JSONObject option = new JSONObject();
+      option.put("ordinal", ordinals[i]);
+      option.put("tag", SlotPath.unescape(range.getTag(i)));
+      json.put(option);
+    }
+    
+    return json;
   }
   
   private void processSerie(WebOp op, String[] paths, boolean post)

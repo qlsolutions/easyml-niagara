@@ -89,7 +89,7 @@ public class BEasyMLHistoryLearnJob
           String id = SlotPath.unescape(serie.getString("id"));
           int index = id.indexOf('/');
           if (index != -1)
-            addLearnedHistory(serie.getString("displayName"), serie.getString("type"), id.substring(0, index), id.substring(index+1), serie.getString("interval"), serie.getString("units"));
+            addLearnedHistory(serie.getString("displayName"), serie.getString("type"), id.substring(0, index), id.substring(index+1), serie.getString("interval"), serie.getString("units"), serie.has("range") ? serie.getJSONArray("range") : new JSONArray());
           else
             log().failed("Invalid history id for serie " + displayName);
         }
@@ -116,12 +116,12 @@ public class BEasyMLHistoryLearnJob
     cancel = true;
   }
   
-  void addLearnedHistory(String label, String type, String device, String name, String interval, String units)
+  void addLearnedHistory(String label, String type, String device, String name, String interval, String units, JSONArray range)
   {
     String learnName = SlotPath.escape(device + "_" + name);
     if (get(learnName) == null) // If a learn entry does not yet exist for this history
     {
-      BEasyMLHistoryEntry entry = new BEasyMLHistoryEntry(label, type, device, name, interval, units);
+      BEasyMLHistoryEntry entry = new BEasyMLHistoryEntry(label, type, device, name, interval, units, range);
       add(learnName, entry);
       log().message("Found serie (" + device + "): " + name);
     }

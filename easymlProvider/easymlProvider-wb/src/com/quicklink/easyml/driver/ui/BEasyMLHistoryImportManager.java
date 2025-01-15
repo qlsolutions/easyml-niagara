@@ -18,6 +18,7 @@ import javax.baja.nre.annotations.NiagaraType;
 import javax.baja.nre.util.Array;
 import javax.baja.sys.BComplex;
 import javax.baja.sys.BComponent;
+import javax.baja.sys.BFacets;
 import javax.baja.sys.BObject;
 import javax.baja.sys.BRelTime;
 import javax.baja.sys.BString;
@@ -137,12 +138,10 @@ public class BEasyMLHistoryImportManager
          if (i == 0)
          {
            colArray.add(colHistoryType);
+           colArray.add(colHistoryLabel);
            colArray.add(colInterval);           
          }
        }
-//       MgrColumn[] mgrCol = super.makeColumns();
-//       MgrColumn colCapacity = mgrCol[mgrCol.length - 2];
-//       MgrColumn colRoll = mgrCol[mgrCol.length - 1];
        colArray.add(colFacets);
        colArray.add(colSystemTags);
        return (MgrColumn[])colArray.trim();
@@ -196,7 +195,7 @@ public class BEasyMLHistoryImportManager
           new MgrColumn.Prop(BEasyMLHistoryEntry.historyDevice),
           new MgrColumn.Prop(BEasyMLHistoryEntry.historyName),
           new MgrColumn.Prop(BEasyMLHistoryEntry.historyInterval),
-          new MgrColumn.Prop(BEasyMLHistoryEntry.historyUnits)
+          new MgrColumn.Prop(BEasyMLHistoryEntry.historyFacets)
       };
     }
     
@@ -218,11 +217,14 @@ public class BEasyMLHistoryImportManager
       row.setCell(((ArchiveModel)getManager().getModel()).idCol, historyId);
       
       colHistoryType.save(row, BString.make(entry.getHistoryType()), getCurrentContext());
+      colHistoryLabel.save(row, BString.make(entry.getHistoryLabel()), getCurrentContext());
       
       if (entry.getHistoryInterval().equals("irregular"))
         colInterval.save(row, BCollectionInterval.IRREGULAR, getCurrentContext());
       else
         colInterval.save(row, BCollectionInterval.make(BRelTime.make(Long.parseLong(entry.getHistoryInterval()))), getCurrentContext());
+      
+      row.setCell(colFacets, BFacets.make(entry.getHistoryFacets()));
     }
 
     public BImage getIcon(Object dis)
@@ -381,10 +383,11 @@ public class BEasyMLHistoryImportManager
 //Fields
 ////////////////////////////////////////////////////////////////
   
-  private MgrColumn colHistoryType = new MgrColumn.Prop(BEasyMLHistoryImport.historyType, MgrColumn.READONLY);
-  private MgrColumn colInterval    = new MgrColumn.Prop(BEasyMLHistoryImport.interval, MgrColumn.READONLY);
-  private MgrColumn colFacets      = new MgrColumn.Prop(BEasyMLHistoryImport.facets, MgrColumn.EDITABLE | MgrColumn.UNSEEN);
-  private MgrColumn colSystemTags  = new HistorySystemTagsProp(BEasyMLHistoryImport.systemTags, MgrColumn.EDITABLE | MgrColumn.UNSEEN);
+  private MgrColumn colHistoryType  = new MgrColumn.Prop(BEasyMLHistoryImport.historyType, MgrColumn.READONLY);
+  private MgrColumn colHistoryLabel = new MgrColumn.Prop(BEasyMLHistoryImport.historyLabel, MgrColumn.READONLY | MgrColumn.UNSEEN);
+  private MgrColumn colInterval     = new MgrColumn.Prop(BEasyMLHistoryImport.interval, MgrColumn.READONLY);
+  private MgrColumn colFacets       = new MgrColumn.Prop(BEasyMLHistoryImport.facets, MgrColumn.EDITABLE | MgrColumn.UNSEEN);
+  private MgrColumn colSystemTags   = new HistorySystemTagsProp(BEasyMLHistoryImport.systemTags, MgrColumn.EDITABLE | MgrColumn.UNSEEN);
 
 ////////////////////////////////////////////////////////////////
 // Attributes

@@ -3,15 +3,21 @@
  */
 package com.quicklink.easyml.driver.learn;
 
+import javax.baja.naming.SlotPath;
 import javax.baja.nre.annotations.NiagaraProperty;
 import javax.baja.nre.annotations.NiagaraType;
 import javax.baja.sys.BComponent;
+import javax.baja.sys.BEnumRange;
+import javax.baja.sys.BFacets;
 import javax.baja.sys.Flags;
 import javax.baja.sys.Property;
 import javax.baja.sys.Sys;
 import javax.baja.sys.Type;
+import javax.baja.units.BUnit;
 
 import com.quicklink.easyml.driver.history.BEasyMLHistoryImport;
+import com.tridium.json.JSONArray;
+import com.tridium.json.JSONObject;
 
 /**
  * BEasyMLHistoryEntry - Insert description here.
@@ -69,12 +75,12 @@ import com.quicklink.easyml.driver.history.BEasyMLHistoryImport;
   flags = Flags.READONLY
 )
 /**
- * Define the history units.
+ * Define the history facets.
  */
 @NiagaraProperty(
-  name = "historyUnits",
-  type = "String",
-  defaultValue = "",
+  name = "historyFacets",
+  type = "BFacets",
+  defaultValue = "BFacets.NULL",
   flags = Flags.READONLY
 )
 public class BEasyMLHistoryEntry
@@ -82,8 +88,8 @@ public class BEasyMLHistoryEntry
 {
   
 /*+ ------------ BEGIN BAJA AUTO GENERATED CODE ------------ +*/
-/*@ $com.quicklink.easyml.driver.learn.BEasyMLHistoryEntry(317932803)1.0$ @*/
-/* Generated Sun May 28 23:10:42 CEST 2023 by Slot-o-Matic (c) Tridium, Inc. 2012 */
+/*@ $com.quicklink.easyml.driver.learn.BEasyMLHistoryEntry(2578324890)1.0$ @*/
+/* Generated Wed Jan 15 15:58:59 CET 2025 by Slot-o-Matic (c) Tridium, Inc. 2012 */
 
 ////////////////////////////////////////////////////////////////
 // Property "historyLabel"
@@ -216,30 +222,30 @@ public class BEasyMLHistoryEntry
   public void setHistoryInterval(String v) { setString(historyInterval, v, null); }
 
 ////////////////////////////////////////////////////////////////
-// Property "historyUnits"
+// Property "historyFacets"
 ////////////////////////////////////////////////////////////////
   
   /**
-   * Slot for the {@code historyUnits} property.
-   * Define the history units.
-   * @see #getHistoryUnits
-   * @see #setHistoryUnits
+   * Slot for the {@code historyFacets} property.
+   * Define the history facets.
+   * @see #getHistoryFacets
+   * @see #setHistoryFacets
    */
-  public static final Property historyUnits = newProperty(Flags.READONLY, "", null);
+  public static final Property historyFacets = newProperty(Flags.READONLY, BFacets.NULL, null);
   
   /**
-   * Get the {@code historyUnits} property.
-   * Define the history units.
-   * @see #historyUnits
+   * Get the {@code historyFacets} property.
+   * Define the history facets.
+   * @see #historyFacets
    */
-  public String getHistoryUnits() { return getString(historyUnits); }
+  public BFacets getHistoryFacets() { return (BFacets)get(historyFacets); }
   
   /**
-   * Set the {@code historyUnits} property.
-   * Define the history units.
-   * @see #historyUnits
+   * Set the {@code historyFacets} property.
+   * Define the history facets.
+   * @see #historyFacets
    */
-  public void setHistoryUnits(String v) { setString(historyUnits, v, null); }
+  public void setHistoryFacets(BFacets v) { set(historyFacets, v, null); }
 
 ////////////////////////////////////////////////////////////////
 // Type
@@ -258,14 +264,56 @@ public class BEasyMLHistoryEntry
   {
   }
   
-  public BEasyMLHistoryEntry(String label, String type, String device, String name, String interval, String units)
+  public BEasyMLHistoryEntry(String label, String type, String device, String name, String interval, String units, JSONArray range)
   {
     setHistoryLabel(label);
     setHistoryType(type);
     setHistoryDevice(device);
     setHistoryName(name);
     setHistoryInterval(interval);
-    setHistoryUnits(units);
+    
+    BFacets facets = BFacets.NULL;
+    try
+    {
+      if (type.equals("numeric"))
+      {
+        if (units.length() > 0)
+          facets = BFacets.make(BFacets.UNITS, BUnit.getUnit(units));
+      }
+      else if (type.equals("enum"))
+      {
+        int[] ordinals = new int[range.length()];
+        String[] tags = new String[range.length()];
+        for (int i=0; i<range.length(); ++i)
+        {
+          JSONObject obj = range.getJSONObject(i);
+          ordinals[i] = obj.getInt("ordinal");
+          tags[i] = SlotPath.escape(obj.getString("tag"));
+        }
+        
+        facets = BFacets.makeEnum(BEnumRange.make(ordinals, tags));
+      }
+      else if (type.equals("bool"))
+      {
+        String trueText = "true";
+        String falseText = "false";
+        for (int i=0; i<range.length(); ++i)
+        {
+          JSONObject obj = range.getJSONObject(i);
+          if (obj.getInt("ordinal") == 0)
+            falseText = obj.getString("tag");
+          if (obj.getInt("ordinal") == 1)
+            trueText = obj.getString("tag");
+        }
+        
+        facets = BFacets.makeBoolean(trueText, falseText);
+      }
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+    }
+    setHistoryFacets(facets);
   }
   
   public final boolean is(BComponent component)

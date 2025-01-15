@@ -31,6 +31,7 @@ import javax.baja.sys.Property;
 import javax.baja.sys.Sys;
 import javax.baja.sys.Type;
 import javax.baja.timezone.BTimeZone;
+import javax.baja.util.BFormat;
 import javax.baja.util.BNameList;
 import javax.baja.util.BTypeSpec;
 import javax.baja.util.IFuture;
@@ -56,6 +57,15 @@ import com.quicklink.easyml.driver.messages.EasyMLMessage;
  */
 @NiagaraProperty(
   name = "historyType",
+  type = "String",
+  defaultValue = "\"\"",
+  flags = Flags.READONLY
+)
+/**
+ * Define the internal history label.
+ */
+@NiagaraProperty(
+  name = "historyLabel",
   type = "String",
   defaultValue = "\"\"",
   flags = Flags.READONLY
@@ -91,8 +101,8 @@ public class BEasyMLHistoryImport
   
 
 /*+ ------------ BEGIN BAJA AUTO GENERATED CODE ------------ +*/
-/*@ $com.quicklink.easyml.driver.history.BEasyMLHistoryImport(1909724376)1.0$ @*/
-/* Generated Wed Jun 07 22:11:06 CEST 2023 by Slot-o-Matic (c) Tridium, Inc. 2012 */
+/*@ $com.quicklink.easyml.driver.history.BEasyMLHistoryImport(2104475531)1.0$ @*/
+/* Generated Wed Jan 15 17:12:28 CET 2025 by Slot-o-Matic (c) Tridium, Inc. 2012 */
 
 ////////////////////////////////////////////////////////////////
 // Property "historyType"
@@ -119,6 +129,32 @@ public class BEasyMLHistoryImport
    * @see #historyType
    */
   public void setHistoryType(String v) { setString(historyType, v, null); }
+
+////////////////////////////////////////////////////////////////
+// Property "historyLabel"
+////////////////////////////////////////////////////////////////
+  
+  /**
+   * Slot for the {@code historyLabel} property.
+   * Define the internal history label.
+   * @see #getHistoryLabel
+   * @see #setHistoryLabel
+   */
+  public static final Property historyLabel = newProperty(Flags.READONLY, "", null);
+  
+  /**
+   * Get the {@code historyLabel} property.
+   * Define the internal history label.
+   * @see #historyLabel
+   */
+  public String getHistoryLabel() { return getString(historyLabel); }
+  
+  /**
+   * Set the {@code historyLabel} property.
+   * Define the internal history label.
+   * @see #historyLabel
+   */
+  public void setHistoryLabel(String v) { setString(historyLabel, v, null); }
 
 ////////////////////////////////////////////////////////////////
 // Property "interval"
@@ -213,6 +249,23 @@ public class BEasyMLHistoryImport
    */
   public BEasyMLHistoryImport()
   {
+  }
+  
+  @Override
+  public void changed(Property property, Context context)
+  {
+    super.changed(property, context);
+    
+    if (!isRunning())
+      return;
+    
+    if (property == historyLabel)
+    {
+      if (getConfigOverrides().get("historyDisplayName") != null)
+        getConfigOverrides().set("historyDisplayName", BFormat.make(getHistoryLabel()));
+      else
+        getConfigOverrides().add("historyDisplayName", BFormat.make(getHistoryLabel()));
+    }
   }
 
   public void doExecute()
