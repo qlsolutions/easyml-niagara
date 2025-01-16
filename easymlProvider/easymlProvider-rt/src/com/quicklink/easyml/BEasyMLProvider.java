@@ -6,6 +6,8 @@ package com.quicklink.easyml;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -32,11 +34,13 @@ import javax.baja.sys.BAbsTime;
 import javax.baja.sys.BEnumRange;
 import javax.baja.sys.BFacets;
 import javax.baja.sys.BIcon;
+import javax.baja.sys.BMarker;
 import javax.baja.sys.Flags;
 import javax.baja.sys.Property;
 import javax.baja.sys.Sys;
 import javax.baja.sys.Type;
 import javax.baja.tag.Id;
+import javax.baja.tag.Tag;
 import javax.baja.units.BUnit;
 import javax.baja.util.BTypeSpec;
 import javax.baja.web.BWebServlet;
@@ -264,9 +268,19 @@ public class BEasyMLProvider
           jhistory.put("range", new JSONArray());
         }
         jhistory.put("interval", config.getInterval().isIrregular() ? "irregular" : Long.toString(config.getInterval().getInterval().getMillis()));
-        jhistory.put("tags", config.tags().getAll().stream().collect(StringBuilder::new,
-                                                                    (x, y) -> x.append(y.getValue().toString()).append(","),
-                                                                    (a, b) -> a.append(",").append(b)).toString().split(","));
+//        jhistory.put("tags", config.tags().getAll().stream().collect(StringBuilder::new, (x, y) -> x.append(y.getValue().toString()).append(","), (a, b) -> a.append(",").append(b)).toString().split(","));
+        JSONArray jtags = new JSONArray();
+        Collection<Tag> tags = config.tags().getAll();
+        for (Iterator<Tag> iterator = tags.iterator(); iterator.hasNext();)
+        {
+          Tag tag = (Tag) iterator.next();
+          if (tag.getValue() instanceof BMarker || tag.getValue().toString().length() == 0)
+            jtags.put(tag.getId());
+          else
+            jtags.put(tag.getId() + "=" + tag.getValue());
+        }
+        jhistory.put("tags", jtags);
+        
         jhistory.put("recordCount", connection.getRecordCount(history));
         jhistory.put("firstTimestamp", connection.getFirstTimestamp(history).getMillis());
         jhistory.put("lastTimestamp", connection.getLastTimestamp(history).getMillis());

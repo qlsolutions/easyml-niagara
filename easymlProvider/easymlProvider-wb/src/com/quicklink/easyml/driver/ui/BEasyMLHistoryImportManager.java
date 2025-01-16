@@ -195,7 +195,8 @@ public class BEasyMLHistoryImportManager
           new MgrColumn.Prop(BEasyMLHistoryEntry.historyDevice),
           new MgrColumn.Prop(BEasyMLHistoryEntry.historyName),
           new MgrColumn.Prop(BEasyMLHistoryEntry.historyInterval),
-          new MgrColumn.Prop(BEasyMLHistoryEntry.historyFacets)
+          new MgrColumn.Prop(BEasyMLHistoryEntry.historyFacets),
+          new MgrColumn.Prop(BEasyMLHistoryEntry.historyTags)
       };
     }
     

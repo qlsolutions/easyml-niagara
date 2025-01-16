@@ -83,13 +83,22 @@ import com.tridium.json.JSONObject;
   defaultValue = "BFacets.NULL",
   flags = Flags.READONLY
 )
+/**
+ * Define the history tags.
+ */
+@NiagaraProperty(
+  name = "historyTags",
+  type = "String",
+  defaultValue = "",
+  flags = Flags.READONLY
+)
 public class BEasyMLHistoryEntry
   extends BComponent
 {
   
 /*+ ------------ BEGIN BAJA AUTO GENERATED CODE ------------ +*/
-/*@ $com.quicklink.easyml.driver.learn.BEasyMLHistoryEntry(2578324890)1.0$ @*/
-/* Generated Wed Jan 15 15:58:59 CET 2025 by Slot-o-Matic (c) Tridium, Inc. 2012 */
+/*@ $com.quicklink.easyml.driver.learn.BEasyMLHistoryEntry(1356987367)1.0$ @*/
+/* Generated Thu Jan 16 08:34:02 CET 2025 by Slot-o-Matic (c) Tridium, Inc. 2012 */
 
 ////////////////////////////////////////////////////////////////
 // Property "historyLabel"
@@ -248,6 +257,32 @@ public class BEasyMLHistoryEntry
   public void setHistoryFacets(BFacets v) { set(historyFacets, v, null); }
 
 ////////////////////////////////////////////////////////////////
+// Property "historyTags"
+////////////////////////////////////////////////////////////////
+  
+  /**
+   * Slot for the {@code historyTags} property.
+   * Define the history interval.
+   * @see #getHistoryTags
+   * @see #setHistoryTags
+   */
+  public static final Property historyTags = newProperty(Flags.READONLY, "", null);
+  
+  /**
+   * Get the {@code historyTags} property.
+   * Define the history interval.
+   * @see #historyTags
+   */
+  public String getHistoryTags() { return getString(historyTags); }
+  
+  /**
+   * Set the {@code historyTags} property.
+   * Define the history interval.
+   * @see #historyTags
+   */
+  public void setHistoryTags(String v) { setString(historyTags, v, null); }
+
+////////////////////////////////////////////////////////////////
 // Type
 ////////////////////////////////////////////////////////////////
   
@@ -264,13 +299,22 @@ public class BEasyMLHistoryEntry
   {
   }
   
-  public BEasyMLHistoryEntry(String label, String type, String device, String name, String interval, String units, JSONArray range)
+  public BEasyMLHistoryEntry(String label, String type, String device, String name, String interval, String units, JSONArray range, JSONArray tags)
   {
     setHistoryLabel(label);
     setHistoryType(type);
     setHistoryDevice(device);
     setHistoryName(name);
     setHistoryInterval(interval);
+    
+    String tagList = "";
+    for (int i=0; i<tags.length(); ++i)
+    {
+      if (tagList.length() > 0)
+        tagList += ", ";
+      tagList += tags.getString(i);
+    }
+    setHistoryTags(tagList);
     
     BFacets facets = BFacets.NULL;
     try
@@ -283,15 +327,15 @@ public class BEasyMLHistoryEntry
       else if (type.equals("enum"))
       {
         int[] ordinals = new int[range.length()];
-        String[] tags = new String[range.length()];
+        String[] options = new String[range.length()];
         for (int i=0; i<range.length(); ++i)
         {
           JSONObject obj = range.getJSONObject(i);
           ordinals[i] = obj.getInt("ordinal");
-          tags[i] = SlotPath.escape(obj.getString("tag"));
+          options[i] = SlotPath.escape(obj.getString("tag"));
         }
         
-        facets = BFacets.makeEnum(BEnumRange.make(ordinals, tags));
+        facets = BFacets.makeEnum(BEnumRange.make(ordinals, options));
       }
       else if (type.equals("bool"))
       {
